@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;net40;net45;net472;netstandard2.0</TargetFrameworks>
@@ -7,7 +7,7 @@
     <PackageId>ComAdmin</PackageId>
     <Copyright>Copyright (c) Dave Kerr 2020</Copyright>
     <PackageProjectUrl>https://github.com/dwmkerr/dotnet-com-admin</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/dwmkerr/otnet-com-admin</RepositoryUrl>
+    <RepositoryUrl>https://github.com/dwmkerr/dotnet-com-admin</RepositoryUrl>
     <Version>0.1.0.0-alpha1</Version>
     <Authors>Dave Kerr</Authors>
     <Company>Dave Kerr</Company>

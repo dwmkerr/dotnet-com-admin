@@ -1,21 +1,31 @@
 image: Visual Studio 2019
 
-clone_depth: 1
-pull_requests:
-  do_not_increment_build_number: true
+# Cache chocolatey packages and Nuget packages. Nuget package cache is invalidated
+# on any change to a project file, the choco cache on any change to the config
+# nuget file.
+cache:
+- ./src/packages -> **/*.csproj
+- C:/ProgramData/chocolatey/bin -> ./src/init.ps1
+- C:/ProgramData/chocolatey/lib -> ./src/init.ps1
+
+# Before building install dependencies for the build.
+before_build:
+- ps: ./src/init.ps1
 
 build_script:
-- cmd: dotnet build ./src/ComAdmin.sln -c Release
+- ps: dotnet build ./src/ComAdmin.sln -c Release
 
 test_script: 
-- cmd: dotnet test ./src/ComAdmin.sln
+- ps: ./src/coverage.ps1
 
 after_test:
-- cmd: dotnet pack ./src/ComAdmin.sln -c Release
+- ps: dotnet pack ./src/ComAdmin.sln -c Release
 
 artifacts:
 - path: './src/**/bin/Release/**/*.nupkg'
   name: NuGetPackages
+- path: './artifacts/coverage'
+  name: Coverage
   
 # Deploy to GitHub and NuGet when we push a version tag.
 deploy:
@@ -23,7 +33,6 @@ deploy:
   auth_token:
     secure: KTWUORrnJKPKLSf/3ROLY50T9UfgTMnKHf3OjBOv8tlY/DAxtlglRU3eM+j45fMt
   artifact: /.*(\.|\.s)nupkg/
-  prerelease: true
   on:
     APPVEYOR_REPO_TAG: true
 - provider: NuGet

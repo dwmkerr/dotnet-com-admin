@@ -29,5 +29,6 @@ artifacts/*
 *.nuget.props
 *.DotSettings.user
 *.vs/
+*TestResults/
 
 [R|r]elease/** 
