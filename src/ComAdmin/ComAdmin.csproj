@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;net40;net45;net472;netstandard2.0</TargetFrameworks>
+
+    <!-- The following properies are used to manage how the project is packaged. -->
+    <PackageId>ComAdmin</PackageId>
+    <Copyright>Copyright (c) Dave Kerr 2020</Copyright>
+    <PackageProjectUrl>https://github.com/dwmkerr/dotnet-com-admin</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/dwmkerr/otnet-com-admin</RepositoryUrl>
+    <Version>0.1.0.0-alpha1</Version>
+    <Authors>Dave Kerr</Authors>
+    <Company>Dave Kerr</Company>
+    <PackageTags>COM;DotNet;SharpShell</PackageTags>
+    <Description>The COM Admin library provides APIs to manage the installation and registration of .NET Framework and .NET Core COM Servers and Shell Extensions.</Description>
+  
+  </PropertyGroup>
+
+</Project>
