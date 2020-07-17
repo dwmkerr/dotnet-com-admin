@@ -73,14 +73,14 @@ To build, test and package the project, just run:
 Run the CLI locally with the `dotnet run` command:
 
 ```
-cd src/ComAdminCli;
+cd src/com-admin-cli;
 dotnet run -- examine "./somefile.dll"
 ```
 
 Install the local version of the tool with the following command:
 
 ```
-dotnet tool install --global --add-source ./src/ComAdminCli/bin/Debug /src/ComAdminCli
+dotnet tool install --global --add-source ./src/com-admin-cli/bin/Debug /src/com-admin-cli
 ```
 
 You can find more examples on how to manage the local CLI tool in the [Tutorial: Create a .NET Core tool using the .NET Core CLI](https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools-how-to-create) guide.
