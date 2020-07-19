@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using ComAdmin.ExamineFile;
 using NUnit.Framework;
 
 namespace ComAdmin.Tests.ExamineFile
@@ -10,7 +11,7 @@ namespace ComAdmin.Tests.ExamineFile
         [Test]
         public void ExamineFile_Can_Identify_A_Native_Dll()
         {
-            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "ExamineFile", "TestFiles", "NativeDll.dll");
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles", "NativeDll.dll");
             var fileShellExtensions = ComAdmin.ExamineFile(path);
             Assert.That(fileShellExtensions.FileType, Is.EqualTo(FileType.NativeDll));
             Assert.That(fileShellExtensions.Version, Is.Null);
@@ -21,18 +22,18 @@ namespace ComAdmin.Tests.ExamineFile
         [Test]
         public void ExamineFile_Can_Identify_A_Dot_Net_Framework_Assembly()
         {
-            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "ExamineFile", "TestFiles", "CopyDirectoryLocationHandler.dll");
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles", "DotNetFrameworkComServer.dll");
             var fileShellExtensions = ComAdmin.ExamineFile(path);
             Assert.That(fileShellExtensions.FileType, Is.EqualTo(FileType.DotNetFrameworkAssembly));
             Assert.That(fileShellExtensions.Version, Is.EqualTo(new Version(1, 0,0, 0)));
             Assert.That(fileShellExtensions.ProcessorArchitecture, Is.EqualTo(ProcessorArchitecture.MSIL));
-            Assert.That(fileShellExtensions.FrameworkName, Is.EqualTo(".NETFramework,Version=v4.5"));
+            Assert.That(fileShellExtensions.FrameworkName, Is.EqualTo(".NETFramework,Version=v4.7.2"));
         }
 
         [Test]
         public void ExamineFile_Can_Identify_A_Dot_Net_Core_Assembly()
         {
-            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "ExamineFile", "TestFiles", "CountLinesExtension.dll");
+            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles", "DotNetCoreComServer.dll");
             var fileShellExtensions = ComAdmin.ExamineFile(path);
             Assert.That(fileShellExtensions.FileType, Is.EqualTo(FileType.DotNetCoreAssembly));
             Assert.That(fileShellExtensions.Version, Is.EqualTo(new Version(1, 0, 0, 0)));

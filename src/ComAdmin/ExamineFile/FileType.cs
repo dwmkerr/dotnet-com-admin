@@ -1,4 +1,4 @@
-﻿namespace ComAdmin
+﻿namespace ComAdmin.ExamineFile
 {
     /// <summary>
     /// This enumeration represents the type of file identified by the <see cref="ComAdmin.ExamineFile" /> API.
