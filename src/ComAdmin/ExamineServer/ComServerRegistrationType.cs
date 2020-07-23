@@ -1,7 +1,7 @@
-﻿namespace ComAdmin.RegisterServer
+﻿namespace ComAdmin.ExamineServer
 {
     /// <summary>
-    /// This enumeration represents the type of file identified by the <see cref="RegisterServerApis.GetComServerRegistrationInfo" /> API.
+    /// This enumeration represents the type of file identified by the <see cref="ExamineServerApis.ExamineServer" /> API.
     /// </summary>
     public enum ComServerRegistrationType
     {

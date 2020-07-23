@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ComAdmin.RegisterServer
+namespace ComAdmin.ExamineServer
 {
     public class ComServerRegistrationInfo
     {
@@ -23,7 +23,8 @@ namespace ComAdmin.RegisterServer
             return new ComServerRegistrationInfo(ComServerRegistrationType.Unknown, clsid, className, null, null, null, null);
         }
 
-        public static ComServerRegistrationInfo NewDotNetFrameworkServerRegistrationInfo(Guid clsid, string className, string comServerPath, string threadingModel, string assembly, string assemblyVersion, string @class, string runtimeVersion, string codeBase)
+        public static ComServerRegistrationInfo NewDotNetFrameworkServerRegistrationInfo(Guid clsid, string className, string comServerPath, string threadingModel,
+            DotNetFrameworkAssemblyInfo rootAssemblyInfo, Dictionary<string, DotNetFrameworkAssemblyInfo> assemblyVersions)
         {
             return new ComServerRegistrationInfo(
                 ComServerRegistrationType.DotNetFrameworkAssembly,
@@ -31,7 +32,7 @@ namespace ComAdmin.RegisterServer
                 className,
                 comServerPath,
                 threadingModel,
-                new DotNetFrameworkServerInfo(assembly, assemblyVersion, @class, runtimeVersion, codeBase),
+                new DotNetFrameworkServerInfo(rootAssemblyInfo, assemblyVersions),
                 null);
         }
         public static ComServerRegistrationInfo NewDotNetCoreServerRegistrationInfo(Guid clsid, string className, string comServerPath, string threadingModel, string progId)
@@ -77,7 +78,7 @@ namespace ComAdmin.RegisterServer
         public string ThreadingModel { get; }
 
         /// <summary>
-        /// The .NET Framework specific server info. Only set if <see cref="ComServerRegistrationType"/> is <see cref="ComServerRegistrationType.DotNetFrameworkAssembly"/>.
+        /// The .NET Framework specific server info. Only set if <see cref="ComServerRegistrationType"/> is <see cref="ComServerRegistrationType.DotNetFrameworkServerInfo"/>.
         /// </summary>
         public DotNetFrameworkServerInfo DotNetFrameworkServer { get; }
 
@@ -88,19 +89,32 @@ namespace ComAdmin.RegisterServer
 
         public class DotNetFrameworkServerInfo
         {
-            public DotNetFrameworkServerInfo(string assembly, string assemblyVersion, string @class, string runtimeVersion, string codeBase)
+            public DotNetFrameworkServerInfo(DotNetFrameworkAssemblyInfo rootAssemblyInfo, Dictionary<string, DotNetFrameworkAssemblyInfo> assemblyVersions)
+            {
+                RootAssemblyInfo = rootAssemblyInfo;
+                AssemblyVersions = assemblyVersions ?? new Dictionary<string, DotNetFrameworkAssemblyInfo>();
+            }
+
+            /// <summary>
+            /// Gets the root assembly info, which is the version used if a version is not specified.
+            /// </summary>
+            public DotNetFrameworkAssemblyInfo RootAssemblyInfo { get; }
+
+            /// <summary>
+            /// Gets the assembly versions. This collection may be empty, but will not be null.
+            /// </summary>
+            public Dictionary<string, DotNetFrameworkAssemblyInfo> AssemblyVersions { get; }
+        }
+
+        public class DotNetFrameworkAssemblyInfo
+        {
+            public DotNetFrameworkAssemblyInfo(string assembly, string @class, string runtimeVersion, string codeBase)
             {
                 Assembly = assembly;
-                AssemblyVersion = assemblyVersion;
                 Class = @class;
                 RuntimeVersion = runtimeVersion;
                 CodeBase = codeBase;
             }
-
-            /// <summary>
-            /// Gets the assembly version.
-            /// </summary>
-            public string AssemblyVersion { get; }
 
             /// <summary>
             /// Gets the assembly.

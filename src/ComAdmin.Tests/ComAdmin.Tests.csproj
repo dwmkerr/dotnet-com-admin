@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TestResults\**" />
+    <EmbeddedResource Remove="TestResults\**" />
+    <None Remove="TestResults\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="TestFiles\DotNetCoreComServer.comhost.dll" />
     <None Remove="TestFiles\DotNetCoreComServer.dll" />
     <None Remove="TestFiles\DotNetFrameworkComServer.dll" />

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Transactions;
+using ComAdmin.ExamineServer;
 using ComAdmin.RegisterServer;
 using CommandLine;
 
@@ -11,15 +12,15 @@ namespace ComAdminCli
 {
     public class Program
     {
-        [Verb("examine", HelpText = "Examine a file to identify whether it hosts COM servers")]
-        class ExamineOptions
+        [Verb("examine-file", HelpText = "Examine a file to identify whether it hosts COM servers")]
+        class ExamineFileOptions
         {
             [Value(0, Required = true, HelpText = "Path of the file to examine")]
             public string Path { get; set; }
         }
 
-        [Verb("get-server-info", HelpText = "Get info on a server from the registry")]
-        class GetServerInfoOptions
+        [Verb("examine-server", HelpText = "Get info on a server from the registry")]
+        class ExamineServerOptions
         {
             [Value(0, Required = true, HelpText = "The server Class ID (CLSID)")]
             public string Clsid { get; set; }
@@ -29,10 +30,10 @@ namespace ComAdminCli
         {
             //  Note that the 'object' type parameter is needed as we have two provide at least *two*
             //  verbs. If we only have one, we use 'object' as a dummy.
-            return CommandLine.Parser.Default.ParseArguments<ExamineOptions, GetServerInfoOptions>(args)
+            return CommandLine.Parser.Default.ParseArguments<ExamineFileOptions, ExamineServerOptions>(args)
                 .MapResult(
-                    (ExamineOptions opts) => Examine(opts),
-                    (GetServerInfoOptions opts) => GetServerInfo(opts),
+                    (ExamineFileOptions opts) => ExamineFile(opts),
+                    (ExamineServerOptions opts) => ExamineServer(opts),
                     errs => ErrorHandler(errs));
         }
 
@@ -45,11 +46,11 @@ namespace ComAdminCli
             Console.WriteLine($"");
         }
 
-        static int Examine(ExamineOptions opts)
+        static int ExamineFile(ExamineFileOptions opts)
         {
             //  Let the user know what we're doing.
             WriteTitle();
-            Console.WriteLine($"  Examining '{Path.GetFileName(opts.Path)}'...");
+            Console.WriteLine($"  Examining file '{Path.GetFileName(opts.Path)}'...");
 
             //  Examine the file.
             var examineFileResult = ComAdmin.ComAdmin.ExamineFile(opts.Path);
@@ -64,11 +65,11 @@ namespace ComAdminCli
             return 0;
         }
 
-        static int GetServerInfo(GetServerInfoOptions opts)
+        static int ExamineServer(ExamineServerOptions opts)
         {
             //  Let the user know what we're doing.
             WriteTitle();
-            Console.WriteLine($"  Getting info for server with class '{Path.GetFileName(opts.Clsid)}'...");
+            Console.WriteLine($"  Examining server '{Path.GetFileName(opts.Clsid)}'...");
 
             //  Try and parse the Guid.
             Guid clsid;
@@ -79,7 +80,7 @@ namespace ComAdminCli
             }
 
             //  Get the server info.
-            var registrationInfo = ComAdmin.ComAdmin.GetComServerRegistrationInfo(clsid);
+            var registrationInfo = ComAdmin.ComAdmin.ExamineServer(clsid);
 
             //  First check for the case that the server is not registered.
             if (registrationInfo == null)
@@ -107,10 +108,10 @@ namespace ComAdminCli
                 case ComServerRegistrationType.NativeDll:
                     return 0;
                 case ComServerRegistrationType.DotNetFrameworkAssembly:
-                    Console.WriteLine($"    Assembly         : {registrationInfo.DotNetFrameworkServer.Assembly}");
-                    Console.WriteLine($"    Assembly Version : {registrationInfo.DotNetFrameworkServer.AssemblyVersion}");
-                    Console.WriteLine($"    Class            : {registrationInfo.DotNetFrameworkServer.Class}");
-                    Console.WriteLine($"    Runtime Version  : {registrationInfo.DotNetFrameworkServer.RuntimeVersion}");
+                    Console.WriteLine($"    Assembly         : {registrationInfo.DotNetFrameworkServer.RootAssemblyInfo.Assembly}");
+                    Console.WriteLine($"    CodeBase         : {registrationInfo.DotNetFrameworkServer.RootAssemblyInfo.CodeBase}");
+                    Console.WriteLine($"    Class            : {registrationInfo.DotNetFrameworkServer.RootAssemblyInfo.Class}");
+                    Console.WriteLine($"    Runtime Version  : {registrationInfo.DotNetFrameworkServer.RootAssemblyInfo.RuntimeVersion}");
                     return 0;
                 case ComServerRegistrationType.DotNetCoreAssembly:
                     Console.WriteLine($"    Prog Id Model    : {registrationInfo.DotNetCoreServer.ProgId}");

@@ -16,7 +16,7 @@ namespace ComAdmin.ExamineFile
     /// This class provides the actual functionality required to examine a file. This works differently between the .NET
     /// Framework and .NET Core, so requires conditional compilation and more sophistiacted testing.
     /// </summary>
-    public static class ExamineFileApi
+    public static class ExamineFileApis
     {
         /// <summary>
         /// The internal API to examine a file. Exposed via the <see cref="ComAdmin" /> static class.
@@ -88,7 +88,7 @@ namespace ComAdmin.ExamineFile
 #if NETCOREAPP
         /// <summary>
         /// This class is used internally only to decode a string valued custom attribute
-        /// from assembly metadata. See the <see cref="ExamineFileApi"/> API for
+        /// from assembly metadata. See the <see cref="ExamineFileApiss"/> API for
         /// the usage.
         /// </summary>
         internal class StringAttributeTypeProvider : ICustomAttributeTypeProvider<string>
