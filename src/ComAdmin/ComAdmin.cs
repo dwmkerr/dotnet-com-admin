@@ -1,5 +1,6 @@
 ﻿using System;
 using ComAdmin.ExamineFile;
+using ComAdmin.ExamineServer;
 using ComAdmin.RegisterServer;
 using ComAdmin.Registry;
 using Microsoft.Win32;
@@ -19,25 +20,32 @@ namespace ComAdmin
         /// <returns>The details of the file to examine.</returns>
         public static ExamineFileResult ExamineFile(string filePath)
         {
-            return ExamineFileApi.ExamineFile(filePath);
+            return ExamineFileApis.ExamineFile(filePath);
         }
+
         public static void RegisterDotNetCoreComServer(RegistryView registryView, Guid clsid, string programId, string comHostPath)
         {
             RegisterServerApis.RegisterDotNetCoreComServer(_registry, registryView, clsid, programId, comHostPath);
         }
 
-        public static ComServerRegistrationInfo GetComServerRegistrationInfo(Guid clsid)
+        /// <summary>
+        /// Examine the registry and try to find out as many details as possible for a server with a
+        /// given CLSID.
+        /// </summary>
+        /// <param name="clsid">The class ID of the server.</param>
+        /// <returns>A <see cref="ComServerRegistrationInfo "/> if a server is registered with the given CLSID, or null otherwise.</returns>
+        public static ComServerRegistrationInfo ExamineServer(Guid clsid)
         {
-            return RegisterServerApis.GetComServerRegistrationInfo(_registry, RegistryView.Registry64, clsid);
+            return ExamineServerApis.ExamineServer(_registry, RegistryView.Registry64, clsid);
         }
 
         /// <summary>
-            /// Set the underlying registry implementation used by the <see cref="ComAdmin" /> APIs.
-            /// The default implementation is the standard <see cref="WindowsRegistry" /> class, which is
-            /// just a wrapper around the standard Windows Registry.
-            /// </summary>
-            /// <param name="registry">The registry implementation to use for <see cref="ComAdmin" /> APIs.</param>
-            public static void SetRegistryImplementation(IRegistry registry)
+        /// Set the underlying registry implementation used by the <see cref="ComAdmin" /> APIs.
+        /// The default implementation is the standard <see cref="WindowsRegistry" /> class, which is
+        /// just a wrapper around the standard Windows Registry.
+        /// </summary>
+        /// <param name="registry">The registry implementation to use for <see cref="ComAdmin" /> APIs.</param>
+        public static void SetRegistryImplementation(IRegistry registry)
         {
             _registry = registry;
         }

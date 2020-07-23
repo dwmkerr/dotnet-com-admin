@@ -2,7 +2,7 @@
   "profiles": {
     "com-admin-cli": {
       "commandName": "Project",
-      "commandLineArgs": "get-server-info 93D11DE9-5F6C-354A-A7C5-16CCCA64A9B8"
+      "commandLineArgs": "examine-server 00011DE9-5F6C-354A-A7C5-16CCCA64A9B8"
     }
   }
 }

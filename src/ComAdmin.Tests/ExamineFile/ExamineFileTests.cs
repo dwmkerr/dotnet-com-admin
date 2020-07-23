@@ -25,7 +25,7 @@ namespace ComAdmin.Tests.ExamineFile
             var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "TestFiles", "DotNetFrameworkComServer.dll");
             var fileShellExtensions = ComAdmin.ExamineFile(path);
             Assert.That(fileShellExtensions.FileType, Is.EqualTo(FileType.DotNetFrameworkAssembly));
-            Assert.That(fileShellExtensions.Version, Is.EqualTo(new Version(1, 0,0, 0)));
+            Assert.That(fileShellExtensions.Version, Is.EqualTo(new Version(0, 1, 2, 3)));
             Assert.That(fileShellExtensions.ProcessorArchitecture, Is.EqualTo(ProcessorArchitecture.MSIL));
             Assert.That(fileShellExtensions.FrameworkName, Is.EqualTo(".NETFramework,Version=v4.7.2"));
         }
