@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netcoreapp3.1;net40;net45;net472;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>netcoreapp2.0;netcoreapp3.0;netcoreapp3.1;net40;net45;net472;netstandard2.0</TargetFrameworks>
 
     <!-- The following properies are used to manage how the project is packaged. -->
     <PackageId>ComAdmin</PackageId>
@@ -15,5 +15,15 @@
     <Description>The COM Admin library provides APIs to manage the installation and registration of .NET Framework and .NET Core COM Servers and Shell Extensions.</Description>
   
   </PropertyGroup>
+
+  <ItemGroup>
+    <!--We use Microsoft.Win32.Registry in our IRegistry interface. For .NET Core and later versions of the framework, this is
+    in the Microsoft.Win32.Registry package. For earlier versions of the Framework, it is built in. -->
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'net472'" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'netcoreapp2.0'" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'netcoreapp3.0'" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'netcoreapp3.1'" />
+    <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" Condition="'$(TargetFramework)' == 'netstandard2.0'" />
+  </ItemGroup>
 
 </Project>

@@ -1,5 +1,8 @@
 ﻿using System;
 using ComAdmin.ExamineFile;
+using ComAdmin.RegisterServer;
+using ComAdmin.Registry;
+using Microsoft.Win32;
 
 namespace ComAdmin
 {
@@ -18,5 +21,31 @@ namespace ComAdmin
         {
             return ExamineFileApi.ExamineFile(filePath);
         }
+        public static void RegisterDotNetCoreComServer(RegistryView registryView, Guid clsid, string programId, string comHostPath)
+        {
+            RegisterServerApis.RegisterDotNetCoreComServer(_registry, registryView, clsid, programId, comHostPath);
+        }
+
+        public static ComServerRegistrationInfo GetComServerRegistrationInfo(Guid clsid)
+        {
+            return RegisterServerApis.GetComServerRegistrationInfo(_registry, RegistryView.Registry64, clsid);
+        }
+
+        /// <summary>
+            /// Set the underlying registry implementation used by the <see cref="ComAdmin" /> APIs.
+            /// The default implementation is the standard <see cref="WindowsRegistry" /> class, which is
+            /// just a wrapper around the standard Windows Registry.
+            /// </summary>
+            /// <param name="registry">The registry implementation to use for <see cref="ComAdmin" /> APIs.</param>
+            public static void SetRegistryImplementation(IRegistry registry)
+        {
+            _registry = registry;
+        }
+
+        /// <summary>
+        /// By default, we use the Windows Registry for all operations. You should not need to change
+        /// this unless you are trying to run specific test cases.
+        /// </summary>
+        private static IRegistry _registry = new WindowsRegistry();
     }
 }

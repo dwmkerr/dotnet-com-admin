@@ -16,7 +16,7 @@ namespace ComAdmin.ExamineFile
     /// This class provides the actual functionality required to examine a file. This works differently between the .NET
     /// Framework and .NET Core, so requires conditional compilation and more sophistiacted testing.
     /// </summary>
-    internal static class ExamineFileApi
+    public static class ExamineFileApi
     {
         /// <summary>
         /// The internal API to examine a file. Exposed via the <see cref="ComAdmin" /> static class.
@@ -50,20 +50,22 @@ namespace ComAdmin.ExamineFile
                 //  Load the metadata with the charming MetadataReader.
                 //  Thanks so much https://gist.github.com/jbe2277/f91ef12df682f3bfb6293aabcb47be2a otherwise I would be lost.
                 //  This is kludgy, but we have a big open issue to pull all of this into a dedicated library anyway.
-                using var stream = File.OpenRead(path);
-                using var reader = new PEReader(stream);
-                var metadata = reader.GetMetadataReader();
-                var assembly = metadata.GetAssemblyDefinition();
                 string framework = null;
-                foreach (var attribute in assembly.GetCustomAttributes().Select(metadata.GetCustomAttribute))
+                using (var stream = File.OpenRead(path))
+                using (var reader = new PEReader(stream))
                 {
-                    var ctor = metadata.GetMemberReference((MemberReferenceHandle) attribute.Constructor);
-                    var attrType = metadata.GetTypeReference((TypeReferenceHandle) ctor.Parent);
-                    var attrName = metadata.GetString(attrType.Name);
-                    if (attrName != "TargetFrameworkAttribute") continue;
-                    var attrValue = attribute.DecodeValue(new StringAttributeTypeProvider());
-                    framework = attrValue.FixedArguments[0].Value.ToString();
-                    break;
+                    var metadata = reader.GetMetadataReader();
+                    var assembly = metadata.GetAssemblyDefinition();
+                    foreach (var attribute in assembly.GetCustomAttributes().Select(metadata.GetCustomAttribute))
+                    {
+                        var ctor = metadata.GetMemberReference((MemberReferenceHandle) attribute.Constructor);
+                        var attrType = metadata.GetTypeReference((TypeReferenceHandle) ctor.Parent);
+                        var attrName = metadata.GetString(attrType.Name);
+                        if (attrName != "TargetFrameworkAttribute") continue;
+                        var attrValue = attribute.DecodeValue(new StringAttributeTypeProvider());
+                        framework = attrValue.FixedArguments[0].Value.ToString();
+                        break;
+                    }
                 }
 #endif
                 //  This is risky and brittle to my mind, but at the moment I'm not sure if we have a better way of knowing
