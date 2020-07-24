@@ -21,10 +21,10 @@ The goal of this project is to allow you to manage the registration of servers _
 
 This guide shows how to perform common tasks programatically or with the CLI.
 
-| Component | NuGet Package                   | Package                                                                                                                                                              | Compatibility |
-|-----------|---------------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--|
-| COM Admin APIs | `ComAdmin`                | [![ComAdmin NuGet Package](https://img.shields.io/nuget/v/ComAdmin.svg)](https://www.nuget.org/packages/ComAdmin)                                              | .NET Framework 4+, .NET Core 2.0+, .NET Standard 2.0+ |
-| COM Admin CLI | `com-admin-cli`           | [![com-admin-cli Nuget Package](https://img.shields.io/nuget/v/com-admin-cli.svg)](https://www.nuget.org/packages/com-admin-cli)                                         | .NET Core 3.0+ |
+| Component | NuGet Package | Package | Compatibility |
+|-----------|---------------|---------|---------------|
+| COM Admin APIs | `ComAdmin` | [![ComAdmin NuGet Package](https://img.shields.io/nuget/v/ComAdmin.svg)](https://www.nuget.org/packages/ComAdmin) | .NET Framework 4+, .NET Core 2.0+, .NET Standard 2.0+ |
+| COM Admin CLI | `com-admin-cli` | [![com-admin-cli Nuget Package](https://img.shields.io/nuget/v/com-admin-cli.svg)](https://www.nuget.org/packages/com-admin-cli) | .NET Core 3.0+ |
 
 Install the CLI with the following command:
 
