@@ -14,5 +14,9 @@ https://github.com/dwmkerr/scratch/ComAdminTestServers
 Helpers:
 
 ```ps
+cd \\Mac\Home\repos\github\dwmkerr\dotnet-com-admin\src\ComAdmin.Tests\TestFiles\
+
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /codebase .\DotNetFrameworkComServer.dll
+
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\RegAsm.exe /regfile:InstallDotNetCoreComServer.comhost.dll .\DotNetCoreComServer.dll 
 ```
