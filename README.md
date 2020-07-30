@@ -9,6 +9,8 @@ The goal of this project is to allow you to manage the registration of servers _
 <!-- vim-markdown-toc GFM -->
 
 * [Quick Start](#quick-start)
+    * [Installing the Library](#installing-the-library)
+    * [Installing the CLI](#installing-the-cli)
     * [Examining a File](#examining-a-file)
 * [The Registry & Testing](#the-registry--testing)
 * [Developer Guide](#developer-guide)
@@ -21,10 +23,31 @@ The goal of this project is to allow you to manage the registration of servers _
 
 This guide shows how to perform common tasks programatically or with the CLI.
 
+The currently supported platforms and latest versions of the packages are:
+
 | Component | NuGet Package | Package | Compatibility |
 |-----------|---------------|---------|---------------|
 | COM Admin APIs | `ComAdmin` | [![ComAdmin NuGet Package](https://img.shields.io/nuget/v/ComAdmin.svg)](https://www.nuget.org/packages/ComAdmin) | .NET Framework 4+, .NET Core 2.0+, .NET Standard 2.0+ |
 | COM Admin CLI | `com-admin-cli` | [![com-admin-cli Nuget Package](https://img.shields.io/nuget/v/com-admin-cli.svg)](https://www.nuget.org/packages/com-admin-cli) | .NET Core 3.0+ |
+
+### Installing the Library
+
+Install the CLI with the following command:
+
+```sh
+dotnet add package ComAdmin
+```
+
+Reference the APIs like so:
+
+```cs
+using ComAdmin;
+
+var examineResults = ComAdmin.Examine(@"./CopyDirectoryLocationHandler.dll");
+Console.WriteLine($"File Type: {examineResults.FileType}"); // etc
+```
+
+### Installing the CLI
 
 Install the CLI with the following command:
 
